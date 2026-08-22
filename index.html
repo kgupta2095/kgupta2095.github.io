@@ -182,11 +182,11 @@
   <section id="guardrail" aria-label="Exhibit 1: the guardrail, live">
     <div class="sechead">
       <p class="kicker">Exhibit 01 · spec-to-ship</p>
-      <h2>Try to ship a hallucination</h2>
-      <p>My summariser design blocks any summary containing a claim its source cannot support. Pick a ticket, choose how careless the model feels today, and run the pipeline. Then try to get a made-up refund past the gate.</p>
+      <h2>Try to slip an error into a care record</h2>
+      <p>At work I build AI that turns carers' shift notes into compliant client summaries, where an invented detail is not a typo, it is a clinical record that lies. This is that guardrail design, on synthetic notes: pick one, set the model's temperament, and try to get an invented medication event past the gate.</p>
     </div>
     <div class="panel">
-      <div class="chips" id="ticketChips" role="group" aria-label="Choose a ticket"></div>
+      <div class="chips" id="ticketChips" role="group" aria-label="Choose a shift note"></div>
       <div style="display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-top:.9rem">
         <span class="steptag">Model temperament:</span>
         <div class="chips" id="moodChips" role="group" aria-label="Model temperament">
@@ -197,11 +197,11 @@
       </div>
       <div class="lab">
         <div>
-          <div class="ticket" id="ticketBox"><div class="tl">Source ticket</div><div id="ticketText"></div></div>
+          <div class="ticket" id="ticketBox"><div class="tl">Carer shift note · synthetic</div><div id="ticketText"></div></div>
         </div>
         <div class="stage" id="stage" aria-live="polite"></div>
       </div>
-      <p class="cap">A browser re-enactment on precomputed examples, so you can feel the design. The <a href="https://github.com/kgupta2095/spec-to-ship">repo</a> runs the real two-pass model pipeline, with 16 eval cases for the summariser and 6 trap cases for the guardrail itself.</p>
+      <p class="cap">A browser re-enactment on precomputed, fully synthetic notes, so you can feel the design. The <a href="https://github.com/kgupta2095/spec-to-ship">repo</a> runs the real two-pass model pipeline, with 16 eval cases for the summariser and 6 trap cases for the guardrail itself.</p>
     </div>
   </section>
 
@@ -223,15 +223,15 @@
   <section id="adoption" aria-label="Exhibit 3: adoption explorer">
     <div class="sechead">
       <p class="kicker">Exhibit 03 · funnel-gapfind</p>
-      <h2>Where AI adoption actually leaks</h2>
-      <p>Adoption and retention analysis for a care-workforce platform, on the repo's reproducible dataset (seed 42, numbers below are from the committed run). Three cuts, three different product decisions.</p>
+      <h2>Where AI adoption leaks on a care platform</h2>
+      <p>The question I face at work after shipping an AI client-summary feature: six weeks on, who is it actually reaching? This is a synthetic twin of that analysis on the repo's reproducible dataset (seed 42, numbers from the committed run), instrumented the way production tracks it: entry point seen, first summary generated, generated again within the week.</p>
     </div>
     <div class="panel">
       <div class="chips views" id="viewChips" role="group" aria-label="Choose a view"></div>
       <div id="chart"></div>
       <div class="bet" id="betBox"><b>The bet</b><span id="betText"></span></div>
       <details id="dataTable"><summary>view the numbers as a table</summary><div id="tableWrap"></div></details>
-      <p class="cap">Synthetic, seeded, reproducible: run <span class="mono">data_gen.py</span> then <span class="mono">analyze.py</span> in the <a href="https://github.com/kgupta2095/funnel-gapfind">repo</a> and you get exactly these numbers. The method mirrors the adoption analysis I run on production data at work.</p>
+      <p class="cap">Synthetic, seeded, reproducible: run <span class="mono">data_gen.py</span> then <span class="mono">analyze.py</span> in the <a href="https://github.com/kgupta2095/funnel-gapfind">repo</a> and you get exactly these numbers. The method mirrors the rollout analysis I run on production analytics at work; no real client or provider data appears anywhere on this page.</p>
     </div>
   </section>
 
@@ -282,34 +282,36 @@ function el(tag, cls, html){ var e=document.createElement(tag); if(cls)e.classNa
 
 /* ---------------- Exhibit 1: guardrail ---------------- */
 var TICKETS=[
- {id:"billing",label:"double charge",
-  source:"Customer reports being charged twice for their March subscription. Two identical charges of $49 on 3 March. Agent confirmed the duplicate in the billing system and escalated to the payments team. No refund has been processed yet. Customer will wait but wants confirmation this week.",
-  clean:{summary:"The customer was charged $49 twice on 3 March. The duplicate is confirmed and escalated to the payments team; no refund has been processed yet.",
-   claims:[{t:"Two identical $49 charges on 3 March",ok:true,why:"stated in ticket"},
-           {t:"Escalated to the payments team",ok:true,why:"stated in ticket"},
-           {t:"No refund processed yet",ok:true,why:"stated in ticket"}]},
-  sloppy:{summary:"The customer was charged $49 twice on 3 March and the case went to payments. A refund of $98 was processed and will arrive within 5 business days.",
-   claims:[{t:"Two identical $49 charges on 3 March",ok:true,why:"stated in ticket"},
-           {t:"Escalated to the payments team",ok:true,why:"stated in ticket"},
-           {t:"A $98 refund was processed, arriving in 5 business days",ok:false,why:"the ticket says no refund has been processed"}]}},
- {id:"import",label:"stuck import",
-  source:"Customer is frustrated after three unanswered emails about a data import stuck for five days. Agent apologised, confirmed the import job failed on a malformed row, and restarted it. The restarted job is running and an update was promised by end of day.",
-  clean:{summary:"A data import was stuck for five days after failing on a malformed row. The job has been restarted and an update is promised by end of day.",
-   claims:[{t:"Import stuck five days, failed on a malformed row",ok:true,why:"stated in ticket"},
-           {t:"Job restarted and running",ok:true,why:"stated in ticket"},
-           {t:"Update promised by end of day",ok:true,why:"stated in ticket"}]},
-  sloppy:{summary:"A data import failed on a malformed row and was restarted, with an update due by end of day. The customer accepted a 20% discount as an apology.",
-   claims:[{t:"Import failed on a malformed row and was restarted",ok:true,why:"stated in ticket"},
-           {t:"Update due by end of day",ok:true,why:"stated in ticket"},
-           {t:"Customer accepted a 20% discount",ok:false,why:"no discount appears anywhere in the ticket"}]}},
- {id:"slack",label:"broken Slack",
-  source:"The customer's Slack integration stopped posting notifications on Sunday. The workspace token was revoked on the customer side during their workspace migration. Reconnecting requires a workspace admin to reauthorise; instructions were sent. Waiting on the customer's admin.",
-  clean:{summary:"Slack notifications stopped on Sunday because the workspace token was revoked during the customer's migration. Reauthorisation instructions were sent; the fix waits on their admin.",
-   claims:[{t:"Notifications stopped Sunday, token revoked during migration",ok:true,why:"stated in ticket"},
-           {t:"Instructions sent; waiting on the customer's admin",ok:true,why:"stated in ticket"}]},
-  sloppy:{summary:"Slack notifications stopped when the token was revoked during migration; instructions were sent to the admin. Notifications have since resumed for most channels.",
-   claims:[{t:"Token revoked during migration; instructions sent",ok:true,why:"stated in ticket"},
-           {t:"Notifications have resumed for most channels",ok:false,why:"the ticket says it is still waiting on the admin"}]}}
+ {id:"meds",label:"medication prompt",
+  source:"Morning visit, 7:45am to 8:30am. Prompted Mrs H to take her 8am medications from the Webster pack; she self-administered all of them without difficulty. Breakfast prepared and eaten well. Skin check on lower legs, no changes observed. Client in good spirits, no concerns raised. Next visit tomorrow morning.",
+  clean:{summary:"Morning visit completed. The client was prompted and self-administered her 8am Webster-pack medications without difficulty. Breakfast eaten well; lower-leg skin check showed no changes and no concerns were raised.",
+   claims:[{t:"Client was prompted and self-administered her 8am medications",ok:true,why:"stated in the note"},
+           {t:"Lower-leg skin check, no changes observed",ok:true,why:"stated in the note"},
+           {t:"No concerns raised",ok:true,why:"stated in the note"}]},
+  sloppy:{summary:"Morning visit completed. The carer administered the client's 8am medications and recorded blood pressure at 120/80. Breakfast was eaten well and no concerns were raised.",
+   claims:[{t:"The carer administered the 8am medications",ok:false,why:"the note says the client was prompted and self-administered, a different care event with different compliance meaning"},
+           {t:"Blood pressure recorded at 120/80",ok:false,why:"no vitals appear anywhere in the note"},
+           {t:"Breakfast eaten well, no concerns raised",ok:true,why:"stated in the note"}]}},
+ {id:"fall",label:"bathroom near-miss",
+  source:"Afternoon visit. Mr T slipped slightly on the bathroom floor but steadied himself on the grab rail; he did not fall and no injury was observed. The floor was wet from a leaking tap washer; a maintenance request was logged and his daughter was notified by phone. Per the falls protocol, no GP review is required for a near-miss without impact. Client comfortable at end of visit.",
+  clean:{summary:"Near-miss during the afternoon visit: the client slipped on a wet bathroom floor but steadied himself on the grab rail, with no fall and no injury observed. Maintenance was logged for the leaking tap and his daughter was notified. No GP review is required under the falls protocol.",
+   claims:[{t:"Slip steadied on the grab rail, no fall, no injury observed",ok:true,why:"stated in the note"},
+           {t:"Maintenance logged; daughter notified",ok:true,why:"stated in the note"},
+           {t:"No GP review required under the falls protocol",ok:true,why:"stated in the note"}]},
+  sloppy:{summary:"The client had a near-miss on a wet bathroom floor with no injury observed. His daughter was notified, and a GP appointment was booked for Thursday to review him.",
+   claims:[{t:"Near-miss on a wet floor, no injury observed",ok:true,why:"stated in the note"},
+           {t:"Daughter notified",ok:true,why:"stated in the note"},
+           {t:"A GP appointment was booked for Thursday",ok:false,why:"the note says no GP review is required; no booking appears anywhere"}]}},
+ {id:"wound",label:"wound dressing",
+  source:"Wound care visit, 2:15pm. Dressing changed on the left ankle wound. Wound edges pink, no odour, small amount of clear exudate; photo uploaded to the wound chart. Client rated pain 3 out of 10 during the change. Next dressing change scheduled for Friday per the care plan.",
+  clean:{summary:"Left-ankle dressing changed. Wound edges pink with no odour and a small amount of clear exudate; a photo was added to the wound chart. Pain rated 3 out of 10 during the change; next change is due Friday per the care plan.",
+   claims:[{t:"Left-ankle dressing changed; edges pink, no odour, clear exudate",ok:true,why:"stated in the note"},
+           {t:"Pain rated 3 out of 10 during the change",ok:true,why:"stated in the note"},
+           {t:"Next dressing change due Friday",ok:true,why:"stated in the note"}]},
+  sloppy:{summary:"Left-ankle dressing changed and the wound is healing well, with antibiotics commenced as planned. Pain was rated 3 out of 10 and the next change is due Friday.",
+   claims:[{t:"Left-ankle dressing changed",ok:true,why:"stated in the note"},
+           {t:"Antibiotics commenced as planned",ok:false,why:"no antibiotics appear anywhere in the note, and 'healing well' is an inference the note does not make"},
+           {t:"Pain 3 out of 10; next change Friday",ok:true,why:"stated in the note"}]}}
 ];
 var curTicket=TICKETS[0], curMood="careful", running=false, timers=[];
 var ticketChips=document.getElementById("ticketChips");
@@ -353,8 +355,8 @@ document.getElementById("runBtn").addEventListener("click",function(){
     var s3=el("div","step on","");
     var stamp=el("div","stamp "+(bad?"block":"ship"), bad?"BLOCKED":"SHIPPED");
     s3.appendChild(stamp);
-    if(bad){ s3.appendChild(el("p","fallback","One unsupported claim blocks the whole summary. Fallback: show “read thread”, queue for human review. Warnings train people to ignore warnings; blocks do not.")); }
-    else { s3.appendChild(el("p","fallback","Every claim traced back to the source. This summary is allowed in front of a user.")); }
+    if(bad){ s3.appendChild(el("p","fallback","One unsupported claim blocks the whole summary. Fallback: show the original note and queue it for human review. Warnings train people to ignore warnings; blocks do not.")); }
+    else { s3.appendChild(el("p","fallback","Every claim traced back to the carer's note. This summary is allowed into the client record.")); }
     stage.appendChild(s3);
     later(function(){stamp.classList.add("on");},80);
     running=false; document.getElementById("runBtn").disabled=false;
@@ -400,14 +402,14 @@ document.getElementById("classifyBtn").addEventListener("click",function(){
     "<b>Open questions</b>Which users are affected, and how many? Is there a workaround today?");
   card.appendChild(stub);
   var gate=el("div","gate");
-  var status=el("span","gstat pending","STATUS: PENDING — waiting for a human");
+  var status=el("span","gstat pending","STATUS: PENDING · waiting for a human");
   var ok=el("button","btn","Approve"); var rej=el("button","btn ghost","Reject");
   gate.appendChild(status); gate.appendChild(ok); gate.appendChild(rej); card.appendChild(gate);
   ok.addEventListener("click",function(){ status.className="gstat approved";
-    status.textContent="STATUS: APPROVED — ready to file. The real tool still requires a separate post command, a token, and an explicit yes. This demo stops here, on purpose.";
+    status.textContent="STATUS: APPROVED · ready to file. The real tool still requires a separate post command, a token, and an explicit yes. This demo stops here, on purpose.";
     ok.remove(); rej.remove(); });
   rej.addEventListener("click",function(){ status.className="gstat rejected";
-    status.textContent="STATUS: REJECTED — discarded. The agent drafted it; you decided. That order never flips.";
+    status.textContent="STATUS: REJECTED · discarded. The agent drafted it; you decided. That order never flips.";
     ok.remove(); rej.remove(); });
   out.appendChild(card);
 });
@@ -415,28 +417,28 @@ function escapeHtml(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").repl
 
 /* ---------------- Exhibit 3: adoption explorer ---------------- */
 var VIEWS=[
- {id:"disc",label:"who finds it",metric:"% of eligible users who ever discover the feature",
-  bet:"Move the entry point into the mobile documentation flow, where carers already work. Target discovery parity with web; hold discovered-to-first-use steady as the guardrail metric. Once seen, the feature converts within a 5.4 point band everywhere: the gap is placement, not value.",
+ {id:"disc",label:"who sees it",metric:"% of eligible users who ever see the summary entry point",
+  bet:"The entry point lives in the web dashboard, where coordinators work. Support workers, the people actually at client visits, live in the mobile app and mostly never see it. Move it into the mobile visit-documentation flow, and hold seen-to-first-summary steady as the guardrail metric: it sits in a 5.4 point band across every group, so the value is fine, the placement is not.",
   rows:[
-   {l:"Coordinator · web",s:"2,616 users · 54.2% convert once seen",v:57.3},
-   {l:"Coordinator · mobile",s:"1,103 users · 55.1% convert",v:39.0},
-   {l:"Carer · web",s:"1,323 users · 52.8% convert",v:38.1},
-   {l:"Admin · web",s:"1,846 users · 56.9% convert",v:28.8},
-   {l:"Admin · mobile",s:"462 users · 51.5% convert",v:22.3},
-   {l:"Carer · mobile",s:"7,650 users · the platform’s biggest group",v:16.1,feat:true}]},
- {id:"habit",label:"who keeps using it",metric:"% of first-time users who come back to the feature",
-  bet:"Treat enterprise adoption as its own product surface: org-level default-on policy, an admin rollout kit, per-organisation adoption reporting for customer success. Individuals in large orgs try the feature and stop; that is organisational friction, not feature failure.",
+   {l:"Coordinators · web",s:"2,616 users · 54.2% generate once they see it",v:57.3},
+   {l:"Coordinators · mobile",s:"1,103 users · 55.1% generate",v:39.0},
+   {l:"Support workers · web",s:"1,323 users · 52.8% generate",v:38.1},
+   {l:"Office admins · web",s:"1,846 users · 56.9% generate",v:28.8},
+   {l:"Office admins · mobile",s:"462 users · 51.5% generate",v:22.3},
+   {l:"Support workers · mobile",s:"7,650 users · the people at the visits",v:16.1,feat:true}]},
+ {id:"habit",label:"who builds the habit",metric:"% of first-time users who generate again within a week",
+  bet:"Staff at large providers try it once and stop; that pattern is permissions, rollout policy and internal guidance, not the feature. Treat enterprise adoption as its own product surface: org-level default-on, a rollout kit for care managers, and per-provider adoption reporting for customer success. Measure the habit by provider cohort, never blended.",
   rows:[
-   {l:"Small orgs",s:"6,659 users",v:61.5},
-   {l:"Medium orgs",s:"5,293 users",v:50.8},
-   {l:"Large orgs",s:"3,048 users · where the revenue is",v:24.5,feat:true}]},
- {id:"ret",label:"do they come back",metric:"week-over-week platform return, by adoption depth",
+   {l:"Solo and small providers",s:"1 to 20 staff · 6,659 users",v:61.5},
+   {l:"Mid-size providers",s:"21 to 100 staff · 5,293 users",v:50.8},
+   {l:"Large providers",s:"100+ staff · 3,048 users · where the revenue is",v:24.5,feat:true}]},
+ {id:"ret",label:"does it change retention",metric:"week-over-week platform return, by adoption depth",
   bet:"A 22-point retention gap between adopters (52.9%) and non-adopters (30.5%) is exactly what engaged users would produce anyway. Run a holdback experiment and measure true lift before this number goes anywhere near a QBR slide.",
   rows:[
-   {l:"Habitual users",s:"reached repeat use",v:61.0,feat:true},
-   {l:"Tried it once",s:"reached first use",v:44.7},
-   {l:"Saw it, never used it",s:"discovered only",v:35.5,neut:true},
-   {l:"Never discovered it",s:"eligible only",v:29.6,neut:true}]}
+   {l:"Generate weekly",s:"the habit formed",v:61.0,feat:true},
+   {l:"Generated once",s:"tried it, stopped",v:44.7},
+   {l:"Saw it, never generated",s:"entry point seen only",v:35.5,neut:true},
+   {l:"Never saw it",s:"eligible only",v:29.6,neut:true}]}
 ];
 var curView=VIEWS[0];
 var viewChips=document.getElementById("viewChips"), chart=document.getElementById("chart"),
@@ -462,7 +464,7 @@ function renderView(){
     track.appendChild(fill); track.appendChild(val); row.appendChild(lab); row.appendChild(track);
     chart.appendChild(row);
     requestAnimationFrame(function(){ requestAnimationFrame(function(){ fill.style.width=r.v+"%"; }); });
-    function showTip(x,y){ tip.textContent=r.l+" — "+r.v.toFixed(1)+"% · "+r.s;
+    function showTip(x,y){ tip.textContent=r.l+" · "+r.v.toFixed(1)+"% · "+r.s;
       tip.style.left=Math.min(x+14,innerWidth-260)+"px"; tip.style.top=(y+14)+"px"; tip.style.opacity="1"; }
     row.addEventListener("mousemove",function(e){ showTip(e.clientX,e.clientY); });
     row.addEventListener("mouseleave",function(){ tip.style.opacity="0"; });
