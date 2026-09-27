@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Karan Gupta</title>
-<meta name="description" content="Karan Gupta, AI Product Manager in Sydney. A portfolio you can poke: a live guardrail demo, an agent with a human gate, and an adoption explorer on real seeded-run numbers.">
+<meta name="description" content="Karan Gupta, AI Product Manager in Sydney. A portfolio you can poke: an interactive guardrail demo, an agent with a human gate, and an adoption explorer on synthetic, seeded-run numbers.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
@@ -171,7 +171,7 @@
     <p class="kicker">AI Product Manager · Sydney</p>
     <h1>Karan Gupta</h1>
     <p class="thesis">I ship LLM features the way releases should work: spec first, guardrail second, evals before anything reaches a user.</p>
-    <p class="intro">Eight-plus years building SaaS across healthcare, real estate, and government. Today I lead AI product development on a <strong>care-workforce platform serving 100,000+ monthly users</strong>. A CV can say all that; this page would rather show you. Below are three working exhibits, one for each of my public repos. Poke them.</p>
+    <p class="intro">Eight-plus years in product and digital delivery across B2B SaaS, real estate, government and health. Today I'm a Product Manager at ShiftCare, a platform delivering 9.3M+ shifts a year, where I lead <strong>11+ AI programs spanning 50+ AI features</strong>. A CV can say all that; this page would rather show you. Below are three working exhibits, one for each of my project repos. Poke them.</p>
     <nav class="ctas" aria-label="Jump to an exhibit">
       <a href="#guardrail">01 · Break the guardrail</a>
       <a href="#triage">02 · Triage a request</a>
@@ -179,11 +179,11 @@
     </nav>
   </header>
 
-  <section id="guardrail" aria-label="Exhibit 1: the guardrail, live">
+  <section id="guardrail" aria-label="Exhibit 1: break the guardrail">
     <div class="sechead">
       <p class="kicker">Exhibit 01 · spec-to-ship</p>
       <h2>Try to slip an error into a care record</h2>
-      <p>At work I build AI that turns carers' shift notes into compliant client summaries, where an invented detail is not a typo, it is a clinical record that lies. This is that guardrail design, on synthetic notes: pick one, set the model's temperament, and try to get an invented medication event past the gate.</p>
+      <p>At work I own an AI summary feature in care software, where an invented detail is not a typo, it is a care record that lies. This exhibit rebuilds that guardrail idea on synthetic notes: pick one, set the model's temperament, and try to get an invented medication event past the gate.</p>
     </div>
     <div class="panel">
       <div class="chips" id="ticketChips" role="group" aria-label="Choose a shift note"></div>
@@ -224,44 +224,47 @@
     <div class="sechead">
       <p class="kicker">Exhibit 03 · funnel-gapfind</p>
       <h2>Where AI adoption leaks on a care platform</h2>
-      <p>The question I face at work after shipping an AI client-summary feature: six weeks on, who is it actually reaching? This is a synthetic twin of that analysis on the repo's reproducible dataset (seed 42, numbers from the committed run), instrumented the way production tracks it: entry point seen, first summary generated, generated again within the week.</p>
+      <p>The question every AI feature faces after launch: six weeks on, who is it actually reaching? This exhibit asks it of a hypothetical AI summary feature on a synthetic care platform, using the repo's reproducible dataset (seed 42, numbers from the committed run) and a three-step funnel: entry point seen, first summary generated, generated again within the week.</p>
     </div>
     <div class="panel">
       <div class="chips views" id="viewChips" role="group" aria-label="Choose a view"></div>
       <div id="chart"></div>
       <div class="bet" id="betBox"><b>The bet</b><span id="betText"></span></div>
       <details id="dataTable"><summary>view the numbers as a table</summary><div id="tableWrap"></div></details>
-      <p class="cap">Synthetic, seeded, reproducible: run <span class="mono">data_gen.py</span> then <span class="mono">analyze.py</span> in the <a href="https://github.com/kgupta2095/funnel-gapfind">repo</a> and you get exactly these numbers. The method mirrors the rollout analysis I run on production analytics at work; no real client or provider data appears anywhere on this page.</p>
+      <p class="cap">Synthetic, seeded, reproducible: run <span class="mono">data_gen.py</span> then <span class="mono">analyze.py</span> in the <a href="https://github.com/kgupta2095/funnel-gapfind">repo</a> and you get exactly these numbers. The method is the kind of adoption analysis I do in product analytics at work; the data is invented, and no real client or provider data appears anywhere on this page.</p>
     </div>
   </section>
 
   <section aria-label="Production numbers">
-    <div class="sechead"><p class="kicker">Day job</p><h2>AI in production</h2></div>
+    <div class="sechead"><p class="kicker">Day job</p><h2>Shipped in production</h2></div>
     <div class="metrics">
-      <div class="metric"><b>10,000s</b><span>AI summaries generated every month, live in production</span></div>
-      <div class="metric"><b>Near-perfect</b><span>generation success rate over the last measured month</span></div>
-      <div class="metric"><b data-count="9" data-suffix=" of 11">0 of 11</b><span>AI prototypes I started that shipped to production</span></div>
-      <div class="metric"><b data-count="100" data-suffix="+">0+</b><span>projects delivered in eight months, features and fixes</span></div>
+      <div class="metric"><b>50+</b><span>AI features across 11+ AI programs I lead</span></div>
+      <div class="metric"><b>68,000+</b><span>AI client summaries generated since launch</span></div>
+      <div class="metric"><b>226,000+</b><span>AI summary reads in the last 90 days</span></div>
+      <div class="metric"><b>4x</b><span>UK active users after the UK launch I led</span></div>
     </div>
-    <p class="note">Rounded for a public page. Precise figures and sources on request, and in interviews.</p>
+    <p class="note">From product analytics and release records to Sep 2026, rounded down. Happy to walk through how these were measured.</p>
   </section>
 
   <section aria-label="How I work">
     <div class="sechead"><p class="kicker">Method</p><h2>How I work</h2></div>
     <div class="ways">
-      <div class="way"><p class="tag">Prototype</p><h3>Working prototypes, not vague tickets</h3><p>I build the first version with AI tools to pressure-test scope, then hand engineering a spec-driven brief they can estimate honestly.</p></div>
-      <div class="way"><p class="tag">Ship</p><h3>PRs for the small stuff</h3><p>I write code and raise pull requests for BAU fixes, so the engineering team stays on the problems that need them.</p></div>
-      <div class="way"><p class="tag">Automate</p><h3>Agentic workflows with a stop</h3><p>I run agents across tasks and comms to move requests toward production, with a human gate before anything becomes a commitment.</p></div>
-      <div class="way"><p class="tag">Measure</p><h3>Evals before release</h3><p>Guardrails, fallbacks, and eval suites are defined in the spec. A feature that cannot pass its own audit does not ship.</p></div>
+      <div class="way"><p class="tag">Prototype</p><h3>Prototype as spec</h3><p>I build a working HTML prototype for every feature. Engineers build from it with Claude Code, so the spec is something you can click, not a vague ticket.</p></div>
+      <div class="way"><p class="tag">Ship</p><h3>From interview to rollout, fast</h3><p>Bulk timesheet approval went from my customer interviews to rollout in 5 weeks. I also led the product side of a UK market launch.</p></div>
+      <div class="way"><p class="tag">Automate</p><h3>Agent skills with a stop</h3><p>I build my own Claude Code and Hermes Agent skills to draft PRDs and review UX and copy. They draft; I edit and decide what goes to the team.</p></div>
+      <div class="way"><p class="tag">Measure</p><h3>Guardrails in the spec</h3><p>Guardrails, fallbacks and human-in-the-loop steps go in the spec. On the AI Forms Generator, an engineering-built 64-prompt eval set lifted dynamic-field accuracy from 51.6% to 89.1%.</p></div>
     </div>
   </section>
 
   <section aria-label="Experience">
     <div class="sechead"><p class="kicker">Record</p><h2>Experience</h2></div>
-    <div class="role"><div class="when">2025 · now</div><div><b>ShiftCare</b>, Product Manager <span>· AI product development, core platform domains, US market expansion</span></div></div>
-    <div class="role"><div class="when">2022 · 2025</div><div><b>Miroma Project Factory</b>, Project Manager <span>· digital strategy for global brands, $5M+ government transformation programs</span></div></div>
-    <div class="role"><div class="when">2021 · 2022</div><div><b>Anarock Technology</b>, Product Manager <span>· AI-driven SaaS for one of India's largest real-estate platforms</span></div></div>
-    <div class="role"><div class="when">2017 · 2020</div><div><b>Worklabs</b>, Lead Product Manager <span>· $200M+ healthcare ecosystem transformation, team of 16 with 2 PMs</span></div></div>
+    <div class="role"><div class="when">2025 · now</div><div><b>ShiftCare</b>, Product Manager <span>· 11+ AI programs spanning 50+ AI features; UK market launch; access control and enterprise billing</span></div></div>
+    <div class="role"><div class="when">2022 · 2025</div><div><b>Miroma Project Factory</b>, Project Manager <span>· GPT-4o wellness concierge; 2022 fitness app relaunch; NSW Government digital project</span></div></div>
+    <div class="role"><div class="when">2021 · 2022</div><div><b>ANAROCK</b>, Product Manager <span>· managed 3 products for 5,000+ sales agents; 98.3% adoption in 3 months</span></div></div>
+    <div class="role"><div class="when">2017 · 2020</div><div><b>Worklabs</b>, Product Manager <span>· patient-management ERP taking a major hospital from pen and paper to digital</span></div></div>
+    <div class="role"><div class="when">2017</div><div><b>Travello</b>, Software Engineer <span>· built the admin panel for a travel app with 350,000+ users</span></div></div>
+    <div class="role"><div class="when">2016</div><div><b>TarDisk</b>, Software Engineer Intern <span>· Harvard Innovation Labs start-up, Boston</span></div></div>
+    <div class="role"><div class="when">2015</div><div><b>Harvard University &amp; NBER</b>, Visiting Researcher <span>· agricultural statistics in India, guided by Prof. Richard B. Freeman</span></div></div>
   </section>
 
   <footer>
@@ -431,7 +434,7 @@ var VIEWS=[
   rows:[
    {l:"Solo and small providers",s:"1 to 20 staff · 6,659 users",v:61.5},
    {l:"Mid-size providers",s:"21 to 100 staff · 5,293 users",v:50.8},
-   {l:"Large providers",s:"100+ staff · 3,048 users · where the revenue is",v:24.5,feat:true}]},
+   {l:"Large providers",s:"100+ staff · 3,048 users · the enterprise accounts",v:24.5,feat:true}]},
  {id:"ret",label:"does it change retention",metric:"week-over-week platform return, by adoption depth",
   bet:"A 22-point retention gap between adopters (52.9%) and non-adopters (30.5%) is exactly what engaged users would produce anyway. Run a holdback experiment and measure true lift before this number goes anywhere near a QBR slide.",
   rows:[
